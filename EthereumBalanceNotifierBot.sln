@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthereumBalanceNotifierBot", "EthereumBalanceNotifierBot\EthereumBalanceNotifierBot.csproj", "{1B0B077D-90C3-4C66-8C0F-15E4E1125518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthereumBalanceChecker.ConsoleApp", "EthereumBalanceChecker.ConsoleApp\EthereumBalanceChecker.ConsoleApp.csproj", "{38892FCF-EDCA-4D04-8919-66C059A88663}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B0B077D-90C3-4C66-8C0F-15E4E1125518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B0B077D-90C3-4C66-8C0F-15E4E1125518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B0B077D-90C3-4C66-8C0F-15E4E1125518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B0B077D-90C3-4C66-8C0F-15E4E1125518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38892FCF-EDCA-4D04-8919-66C059A88663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38892FCF-EDCA-4D04-8919-66C059A88663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38892FCF-EDCA-4D04-8919-66C059A88663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38892FCF-EDCA-4D04-8919-66C059A88663}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E47934C1-FB05-436A-9F9E-DFE151B05EFF}
+	EndGlobalSection
+EndGlobal
