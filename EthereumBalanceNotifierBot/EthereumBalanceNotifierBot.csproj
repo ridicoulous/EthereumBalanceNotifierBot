@@ -7,7 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SQLite" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+    <PackageReference Include="Nethereum.JsonRpc.WebSocketClient" Version="3.4.0" />
     <PackageReference Include="Nethereum.RPC" Version="3.4.0" />
+    <PackageReference Include="Nethereum.RPC.Reactive" Version="3.4.0" />
     <PackageReference Include="Nethereum.Web3" Version="3.4.0" />
     <PackageReference Include="TelegramBotFramework" Version="0.1.1" />
   </ItemGroup>

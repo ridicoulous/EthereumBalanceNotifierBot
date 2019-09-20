@@ -7,8 +7,9 @@ namespace EthereumBalanceChecker.ConsoleApp
     {
         static void Main(string[] args)
         {
-            //BalanceChecker ch = new BalanceChecker();
-            //ch.GetINfo();
+            AddressChecker d = new AddressChecker();
+            d.Lookup();
+            Console.Read();
         }
     }
 }
