@@ -145,11 +145,14 @@ namespace EthereumBalanceChecker.ConsoleApp
                 bool isSuccess = false;
                 if (AddressUtil.IsChecksumAddress(address) || AddressUtil.IsValidEthereumAddressHexFormat(address))
                 {
-
                     lock (dbLocker)
                     {
                         using (var db = new AddressesCheckerContext())
                         {
+                            if(db.Addresses.Any(c=>c.UserId==userId))
+                            {
+                                ExecuteSql($"DELETE FROM Address WHERE UserId={userId}");
+                            }
                             db.Addresses.Add(new Address(address, userId));
                             db.SaveChanges();
                             isSuccess = true;
