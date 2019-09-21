@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EthereumBalanceChecker.ConsoleApp.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +25,7 @@ namespace EthereumBalanceChecker.ConsoleApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => new { x.Id, x.UserId });
                 });
         }
 

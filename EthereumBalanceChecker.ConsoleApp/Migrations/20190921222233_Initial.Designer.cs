@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EthereumBalanceChecker.ConsoleApp.Migrations
 {
     [DbContext(typeof(AddressesCheckerContext))]
-    [Migration("20190921170604_Init")]
-    partial class Init
+    [Migration("20190921222233_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,8 +20,9 @@ namespace EthereumBalanceChecker.ConsoleApp.Migrations
 
             modelBuilder.Entity("EthereumBalanceNotifierBot.Database.Address", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
+
+                    b.Property<long>("UserId");
 
                     b.Property<decimal>("Balance");
 
@@ -41,9 +42,7 @@ namespace EthereumBalanceChecker.ConsoleApp.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long>("UserId");
-
-                    b.HasKey("Id");
+                    b.HasKey("Id", "UserId");
 
                     b.ToTable("Addresses");
                 });

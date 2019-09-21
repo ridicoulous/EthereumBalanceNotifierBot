@@ -18,8 +18,9 @@ namespace EthereumBalanceChecker.ConsoleApp.Migrations
 
             modelBuilder.Entity("EthereumBalanceNotifierBot.Database.Address", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
+
+                    b.Property<long>("UserId");
 
                     b.Property<decimal>("Balance");
 
@@ -39,9 +40,7 @@ namespace EthereumBalanceChecker.ConsoleApp.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long>("UserId");
-
-                    b.HasKey("Id");
+                    b.HasKey("Id", "UserId");
 
                     b.ToTable("Addresses");
                 });
