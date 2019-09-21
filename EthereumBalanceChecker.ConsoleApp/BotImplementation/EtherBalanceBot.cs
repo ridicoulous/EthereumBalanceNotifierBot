@@ -151,7 +151,7 @@ namespace EthereumBalanceChecker.ConsoleApp
                         {
                             if(db.Addresses.Any(c=>c.UserId==userId))
                             {
-                                ExecuteSql($"DELETE FROM Address WHERE UserId={userId}");
+                                ExecuteSql($"DELETE FROM Addresses WHERE UserId={userId}");
                             }
                             db.Addresses.Add(new Address(address, userId));
                             db.SaveChanges();
