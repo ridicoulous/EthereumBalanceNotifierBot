@@ -17,7 +17,7 @@ namespace EthereumBalanceChecker.ConsoleApp
                 .Build();
             var admin = config["AdminId"];
             var key = config["BotKey"];
-            var bot = new EtherBalanceBot(key, int.Parse(admin), "Checker");
+            var bot = new EtherBalanceBot(key, int.Parse(admin), new System.Collections.Generic.List<string>() { "Address to check","Balance lower than"});
             bot.Run();
             //AddressChecker d = new AddressChecker();
             //d.Lookup();

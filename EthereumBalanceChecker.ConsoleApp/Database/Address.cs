@@ -10,11 +10,10 @@ namespace EthereumBalanceNotifierBot.Database
         {
 
         }
-        public Address(string address, long userId, decimal balanceLower)
+        public Address(string address, long userId)
         {
             Id = address;
-            UserId = userId;
-            BalanceLowerThan = balanceLower;
+            UserId = userId;           
         }
         public string Id { get; set; }
         public long UserId { get; set; }
@@ -26,6 +25,6 @@ namespace EthereumBalanceNotifierBot.Database
         public decimal? BalanceLowerThan { get; set; } = null;
         public bool BalanceChanged { get; set; } = false;   
         public bool EveryTx { get; set; } = false;
-
+        public bool IsMessageSended { get; set; } = false;
     }
 }
