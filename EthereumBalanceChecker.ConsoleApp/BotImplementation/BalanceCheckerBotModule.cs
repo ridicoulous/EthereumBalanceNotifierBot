@@ -56,7 +56,7 @@ namespace EthereumBalanceChecker.ConsoleApp.BotImplementation
         {
             var address = BotWrapper.GetAddresses();
             if (address != null&&address.Any())
-                return new CommandResponse($"`{String.Join('\n',address)}`", parseMode:Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                return new CommandResponse($"`{String.Join($"\n",address)}`", parseMode:Telegram.Bot.Types.Enums.ParseMode.Markdown);
             else
             {
                 return new CommandResponse($"Here is empty. Press /start to add address to monitoring");

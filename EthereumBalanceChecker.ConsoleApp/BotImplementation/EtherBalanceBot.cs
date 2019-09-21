@@ -72,6 +72,14 @@ namespace EthereumBalanceChecker.ConsoleApp
                 Thread.Sleep(1000 * 60);
             }
         }
+        private void ExecuteSql(string command)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                var res = _db.Database.ExecuteSqlCommand(command);
+                transaction.Commit();
+            }
+        }
         private void CheckAllBalances()
         {
             var addresses = GetAddresses();
@@ -79,7 +87,8 @@ namespace EthereumBalanceChecker.ConsoleApp
             {
                 CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
                 var balace = CheckBalance(a).Result;
-                var res = _db.Database.ExecuteSqlCommand($"UPDATE Addresses SET Balance={balace} WHERE Id={a};");
+                ExecuteSql($"UPDATE Addresses SET Balance={decimal.Round(balace, 6)} WHERE Id={a};");
+
             }
             var notify = GetAddressesToNotify();
             foreach (var n in notify)
@@ -91,7 +100,7 @@ namespace EthereumBalanceChecker.ConsoleApp
         private void Notify(Address address)
         {
             Send(new MessageSentEventArgs() { Target = address.UserId.ToString(), Response = new CommandResponse($"Your [address](https://etherscan.io/address/{address.Id}) balance is {address.Balance} ETH", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
-            _db.Database.ExecuteSqlCommand($"UPDATE Addresses SET IsMessageSended=1 WHERE Id={address.Id};");
+            ExecuteSql($"UPDATE Addresses SET IsMessageSended=1 WHERE Id={address.Id};");
 
         }
         public void ActivateAddress(long userId)
@@ -131,11 +140,12 @@ namespace EthereumBalanceChecker.ConsoleApp
         }
         public bool AddAddress(long userId, string address)
         {
-            bool isSuccess = false;
-            if (AddressUtil.IsChecksumAddress(address) && AddressUtil.IsValidEthereumAddressHexFormat(address))
+            try
             {
-                try
+                bool isSuccess = false;
+                if (AddressUtil.IsChecksumAddress(address) || AddressUtil.IsValidEthereumAddressHexFormat(address))
                 {
+
                     lock (dbLocker)
                     {
                         using (var db = new AddressesCheckerContext())
@@ -146,19 +156,18 @@ namespace EthereumBalanceChecker.ConsoleApp
                         }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Send(new MessageSentEventArgs() { Target = userId.ToString(), Response = new CommandResponse($"Exception `{ex.Message}` happened at your request, try again.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
+                    Send(new MessageSentEventArgs() { Target = userId.ToString(), Response = new CommandResponse($"Looks like `{address}` is not valid eth address, you have to check it`", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
                     return false;
                 }
+                return isSuccess;
             }
-            else
+            catch (Exception ex)
             {
-                Send(new MessageSentEventArgs() { Target = userId.ToString(), Response = new CommandResponse($"Looks like `{address}` is not valid eth address, you have to check it`", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
+                Send(new MessageSentEventArgs() { Target = userId.ToString(), Response = new CommandResponse($"Exception `{ex.Message}` happened at your request, try again.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
                 return false;
-
             }
-            return isSuccess;
         }
         public bool SetBalance(long userId, string balance)
         {
