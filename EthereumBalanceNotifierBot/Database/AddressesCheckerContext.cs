@@ -8,10 +8,13 @@ namespace EthereumBalanceNotifierBot.Database
     public class AddressesCheckerContext : DbContext
     {
         public DbSet<Address> Addresses { get; set; }
-       
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AddressesCheckerContext()
         {
+            this.Database.EnsureCreated();
+          //  this.Database.Migrate();
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {          
             optionsBuilder.UseSqlite("Data Source=AddressesChecker.db");
         }
     }
