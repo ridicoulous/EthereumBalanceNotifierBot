@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="AddressesChecker.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appconfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

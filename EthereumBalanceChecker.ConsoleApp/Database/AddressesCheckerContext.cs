@@ -11,7 +11,7 @@ namespace EthereumBalanceNotifierBot.Database
         public DbSet<Address> Addresses { get; set; }
         public AddressesCheckerContext()
         {
-            this.Database.EnsureCreated();
+            //this.Database.EnsureCreated();
             if(Database.GetPendingMigrations().Any())
                 this.Database.Migrate();
         }
