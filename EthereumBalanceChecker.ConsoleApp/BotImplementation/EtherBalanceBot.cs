@@ -69,12 +69,12 @@ namespace EthereumBalanceChecker.ConsoleApp
             while (true)
             {
                 CheckAllBalances();
-                Thread.Sleep(1000 * 60);
+                Thread.Sleep(1000 * 20);
             }
         }
         private void ExecuteSql(string command)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _db.Database.BeginTransaction(isolationLevel:System.Data.IsolationLevel.ReadUncommitted))
             {
                 var res = _db.Database.ExecuteSqlCommand(command);
                 transaction.Commit();
@@ -85,10 +85,9 @@ namespace EthereumBalanceChecker.ConsoleApp
             var addresses = GetAddresses();
             foreach (var a in addresses)
             {
-                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+               // CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
                 var balace = CheckBalance(a).Result;
-                ExecuteSql($"UPDATE Addresses SET Balance={decimal.Round(balace, 6)} WHERE Id={a};");
-
+                ExecuteSql($"UPDATE Addresses SET Balance={decimal.Round(balace, 6)} WHERE Id='{a}';");
             }
             var notify = GetAddressesToNotify();
             foreach (var n in notify)
@@ -100,7 +99,7 @@ namespace EthereumBalanceChecker.ConsoleApp
         private void Notify(Address address)
         {
             Send(new MessageSentEventArgs() { Target = address.UserId.ToString(), Response = new CommandResponse($"Your [address](https://etherscan.io/address/{address.Id}) balance is {address.Balance} ETH", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) });
-            ExecuteSql($"UPDATE Addresses SET IsMessageSended=1 WHERE Id={address.Id};");
+            ExecuteSql($"UPDATE Addresses SET IsMessageSended=1 WHERE Id='{address.Id}';");
 
         }
         public void ActivateAddress(long userId)
@@ -151,7 +150,7 @@ namespace EthereumBalanceChecker.ConsoleApp
                         {
                             if(db.Addresses.Any(c=>c.UserId==userId))
                             {
-                                ExecuteSql($"DELETE FROM Addresses WHERE UserId={userId}");
+                                ExecuteSql($"DELETE FROM Addresses WHERE UserId='{userId}'");
                             }
                             db.Addresses.Add(new Address(address, userId));
                             db.SaveChanges();
