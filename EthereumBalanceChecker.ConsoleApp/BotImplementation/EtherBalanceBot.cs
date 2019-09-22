@@ -48,7 +48,11 @@ namespace EthereumBalanceChecker.ConsoleApp
                         }
                     }
                 default:
-                    return SendQuestion(userId);
+                    {
+                        CheckAllBalances();
+                        return SendQuestion(userId);
+
+                    }
             }
             return base.GetAnswer(userId, answer);
 
@@ -69,7 +73,7 @@ namespace EthereumBalanceChecker.ConsoleApp
             while (true)
             {
                 CheckAllBalances();
-                Thread.Sleep(1000 * 20);
+                Thread.Sleep(1000 * 120);
             }
         }
         private void ExecuteSql(string command)
