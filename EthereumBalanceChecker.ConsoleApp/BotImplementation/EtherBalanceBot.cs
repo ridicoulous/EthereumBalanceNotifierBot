@@ -196,15 +196,16 @@ namespace EthereumBalanceChecker.ConsoleApp
                 {
                     lock (dbLocker)
                     {
-                        using (var db = new AddressesCheckerContext())
-                        {
-                            var address = db.Addresses.FirstOrDefault(c => c.UserId == userId);
-                            address.BalanceLowerThan = val;
-                            _db.Entry(address).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        ExecuteSql($"UPDATE Addresses SET BalanceLowerThan={val} WHERE UserId='{userId}'");
+                        //using (var db = new AddressesCheckerContext())
+                        //{
+                        //    var address = db.Addresses.FirstOrDefault(c => c.UserId == userId);
+                        //    address.BalanceLowerThan = val;
+                        //    _db.Entry(address).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                            db.SaveChanges();
-                            isSuccess = true;
-                        }
+                        //    db.SaveChanges();
+                        //    isSuccess = true;
+                        //}
                     }
                 }
                 catch (Exception ex)
