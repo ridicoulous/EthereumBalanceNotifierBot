@@ -73,12 +73,13 @@ namespace EthereumBalanceChecker.ConsoleApp
             while (true)
             {
                 CheckAllBalances();
-                Thread.Sleep(1000 * 120);
+                SendNotifications();
+                Thread.Sleep(1000 * 20);
             }
         }
         private void ExecuteSql(string command)
         {
-            using (var transaction = _db.Database.BeginTransaction(isolationLevel:System.Data.IsolationLevel.ReadUncommitted))
+            using (var transaction = _db.Database.BeginTransaction(isolationLevel: System.Data.IsolationLevel.ReadUncommitted))
             {
                 var res = _db.Database.ExecuteSqlCommand(command);
                 transaction.Commit();
@@ -89,16 +90,20 @@ namespace EthereumBalanceChecker.ConsoleApp
             var addresses = GetAddresses();
             foreach (var a in addresses)
             {
-               // CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+                // CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
                 var balace = CheckBalance(a).Result;
                 ExecuteSql($"UPDATE Addresses SET Balance={decimal.Round(balace, 6)} WHERE Id='{a}';");
             }
+           
+
+        }
+        private void SendNotifications()
+        {
             var notify = GetAddressesToNotify();
             foreach (var n in notify)
             {
                 Notify(n);
             }
-
         }
         private void Notify(Address address)
         {
@@ -152,11 +157,12 @@ namespace EthereumBalanceChecker.ConsoleApp
                     {
                         using (var db = new AddressesCheckerContext())
                         {
-                            if(db.Addresses.Any(c=>c.UserId==userId))
+                            if (db.Addresses.Any(c => c.UserId == userId))
                             {
                                 ExecuteSql($"DELETE FROM Addresses WHERE UserId='{userId}'");
                             }
-                            db.Addresses.Add(new Address(address, userId));
+                            var balance = CheckBalance(address).Result;
+                            db.Addresses.Add(new Address(address, userId) { Balance = balance });
                             db.SaveChanges();
                             isSuccess = true;
                         }
