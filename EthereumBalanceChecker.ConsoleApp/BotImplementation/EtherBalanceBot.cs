@@ -197,6 +197,7 @@ namespace EthereumBalanceChecker.ConsoleApp
                     lock (dbLocker)
                     {
                         ExecuteSql($"UPDATE Addresses SET BalanceLowerThan={val} WHERE UserId='{userId}'");
+                        isSuccess = true;
                         //using (var db = new AddressesCheckerContext())
                         //{
                         //    var address = db.Addresses.FirstOrDefault(c => c.UserId == userId);
