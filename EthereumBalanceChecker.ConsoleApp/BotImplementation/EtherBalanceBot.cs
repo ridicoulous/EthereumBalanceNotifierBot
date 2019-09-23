@@ -74,7 +74,7 @@ namespace EthereumBalanceChecker.ConsoleApp
             {
                 CheckAllBalances();
                 SendNotifications();
-                Thread.Sleep(1000 * 20);
+                Thread.Sleep(1000 * 120);
             }
         }
         private void ExecuteSql(string command)
